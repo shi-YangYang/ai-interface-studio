@@ -1,0 +1,6 @@
+.DS_Store
+gpt-images/
+node_modules/
+dist/
+.env
+.env.*

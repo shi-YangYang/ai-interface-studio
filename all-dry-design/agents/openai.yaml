@@ -1,0 +1,4 @@
+interface:
+  display_name: "All-Dry-Design"
+  short_description: "PM interview to distinctive UI/UX design package"
+  default_prompt: "Use $all-dry-design to turn my product idea into a confirmed UI/UX design plan, desktop mockups, and an implementation-ready design document."
