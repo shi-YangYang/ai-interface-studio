@@ -9,11 +9,15 @@ Use this checklist to run a product-manager-style interview. Ask only 3-5 questi
 - Target users, user roles, and permission boundaries
 - Core workflow from entry to completion
 - Core pages or page types
+- Page depth and scroll model: single viewport, page scroll, or an internally scrolling workspace
+- Ordered content sections for any page that extends beyond one viewport
 - Key data objects and their important fields
 - Primary actions, approvals, notifications, and audit needs
 - Visual preferences, reference images, brands to avoid, and tone
 - Technical or organizational constraints
-- Delivery scope: images only, document only, or optional frontend preview later
+- Delivery scope: images and document only, or images, document, and an optional frontend preview
+- Preview scope when requested: routes, key interactions, responsive targets, and states that must be demonstrable
+- Explicitly out of scope: backend services, databases, real authentication, production integrations, deployment, and operations
 
 ## Useful Question Patterns
 
@@ -28,12 +32,26 @@ Fill product structure:
 1. What are the main data objects users create, edit, approve, or search?
 2. Which roles need different navigation, fields, or actions?
 3. Which pages are required, and which can be inferred by Codex?
+4. Which pages continue below the first viewport, and what sections must appear from top to bottom?
+5. Which navigation, toolbars, or sidebars stay sticky while the page or an inner region scrolls?
 
 Shape the design:
 
 1. Should this feel operational, executive, creative, technical, financial, medical, industrial, or something else?
 2. Do you have references or existing brand constraints?
 3. Should the UI be high-density for repeated work or calmer for review and decision-making?
+
+Shape the optional preview:
+
+1. Is a browser-ready frontend preview required after the UI/UX design is approved?
+2. Which routes and interactions must be clickable in the preview?
+3. Which desktop and mobile viewport targets matter for review?
+
+Shape the development handoff:
+
+1. Will downstream frontend work reuse the preview stack or reimplement the design in another stack?
+2. Which existing routes, design system, components, or API conventions must the handoff respect?
+3. Which flows require explicit acceptance criteria for product, engineering, or QA review?
 
 Resolve uncertainty:
 
@@ -55,6 +73,9 @@ Roles and permissions:
 Core workflow:
 Key data objects:
 Constraints:
+Frontend preview scope:
+Downstream development target:
+Out of scope:
 
 ## Page Inventory
 
@@ -62,6 +83,16 @@ Constraints:
 2. Dashboard
 3. ...
 9. Design system
+
+## Page Coverage Plan
+
+| Page | Scroll Model | Frames | Ordered Sections | Sticky / Internal Scroll Notes |
+| --- | --- | ---: | --- | --- |
+| Login | Single viewport | 1 | Authentication form | None |
+| Settings | Page scroll | 3 | Header -> profile -> security -> notifications -> danger zone | Sticky section nav |
+
+Total business-page frames:
+Total images including design system:
 
 ## Visual Concept
 

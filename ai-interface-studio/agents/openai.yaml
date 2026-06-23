@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Interface Studio Skill"
+  short_description: "Product ideas to UI/UX, preview, and handoff"
+  default_prompt: "Use $ai-interface-studio to turn my product idea into a confirmed UI/UX package, a traceable development handoff contract, and, after approval, an interactive frontend preview with mock data."
