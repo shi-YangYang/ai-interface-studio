@@ -12,7 +12,7 @@
 ![Preview](https://img.shields.io/badge/Preview-Frontend%20Prototype-0f766e)
 ![Platform](https://img.shields.io/badge/Platform-Codex%20Only-111827)
 ![Status](https://img.shields.io/badge/Status-MVP-16a34a)
-![License](https://img.shields.io/badge/License-Unspecified-lightgrey)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 > [!IMPORTANT]
 > 本仓库提供的是 **OpenAI Codex Skill**，只能由支持 Skills 的 Codex 环境直接发现和调用。它不是 ChatGPT GPT、OpenAI API SDK、Claude Skill、Cursor Rule 或通用 Prompt 包。
@@ -72,7 +72,7 @@ AI Interface Studio Skill 依赖 Codex 的 Skills 加载机制，不能作为独
 | OpenAI API | 不直接支持 | 本仓库不是 API SDK，也没有独立 API 入口 |
 | Claude、Cursor、Copilot 等其他 Agent | 不保证兼容 | 可以人工参考 Markdown，但不能按 Codex Skill 机制直接安装 |
 
-Codex Skills 的具体可用性取决于当前 Codex 版本。相关概念见 [Codex Skills 官方文档](https://developers.openai.com/codex/concepts/customization#skills)。
+Codex Skills 的具体可用性取决于当前 Codex 版本。相关概念见 [Codex Skills 官方文档](https://developers.openai.com/codex/skills)。
 
 ### 使用前提
 
@@ -85,29 +85,28 @@ Codex Skills 的具体可用性取决于当前 Codex 版本。相关概念见 [C
 
 ## 安装
 
-在本仓库根目录执行对应系统的命令，将 `ai-interface-studio/` 复制到 Codex 的用户 Skills 目录。
+### 使用 npx 安装（推荐）
 
-### macOS / Linux
+macOS、Linux 和 Windows 均可使用社区通用的 Agent Skills 安装器：
 
 ```bash
-mkdir -p ~/.codex/skills
-cp -R ai-interface-studio ~/.codex/skills/
+npx skills add shi-YangYang/ai-interface-studio
 ```
 
-### Windows PowerShell
+按照安装器提示选择 Codex 和用户级安装范围即可。该命令会直接从 GitHub 获取仓库中的 `ai-interface-studio` Skill，不需要克隆仓库或手动复制目录。
 
-```powershell
-New-Item -ItemType Directory -Force ~/.codex/skills | Out-Null
-Copy-Item -Recurse ./ai-interface-studio ~/.codex/skills/
+> [!NOTE]
+> `npx skills add` 由社区 Agent Skills 安装器提供，不是本仓库发布的 npm 软件包，也不是 OpenAI Codex 自带命令。使用该方式需要本地已安装 Node.js 和 npm。
+
+### 使用 Codex Skill Installer
+
+也可以在 Codex 会话中调用内置的 `$skill-installer`：
+
+```text
+$skill-installer 从 https://github.com/shi-YangYang/ai-interface-studio 安装 ai-interface-studio
 ```
 
-### Windows WSL
-
-如果 Codex 运行在 WSL 中，使用 macOS/Linux 命令安装到 WSL 内的 `~/.codex/skills`。
-
-安装后重新打开 Codex 或新建会话，然后使用 `$ai-interface-studio` 调用。
-
-更新时删除 `~/.codex/skills/ai-interface-studio`，然后重新执行安装命令即可。
+安装完成后，如果 Skill 没有立即出现在选择器中，请重启 Codex。随后可使用 `$ai-interface-studio` 调用。
 
 ---
 
@@ -416,4 +415,4 @@ Skill is valid!
 
 ## 许可证
 
-本仓库当前未声明开源许可证。
+本项目采用 [Apache License 2.0](LICENSE) 开源许可证。
