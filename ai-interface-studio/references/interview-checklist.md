@@ -17,6 +17,8 @@ Use this checklist to run a product-manager-style interview. Ask only 3-5 questi
 - Technical or organizational constraints
 - Delivery scope: images and document only, or images, document, and an optional frontend preview
 - Preview scope when requested: routes, key interactions, responsive targets, and states that must be demonstrable
+- Preview fidelity target: reference viewports, pages that require close visual reproduction, and acceptable deviations
+- Collaboration mode: coordinator-led multi-agent workflow when explicitly authorized, or disclosed sequential fallback
 - Explicitly out of scope: backend services, databases, real authentication, production integrations, deployment, and operations
 
 ## Useful Question Patterns
@@ -46,6 +48,14 @@ Shape the optional preview:
 1. Is a browser-ready frontend preview required after the UI/UX design is approved?
 2. Which routes and interactions must be clickable in the preview?
 3. Which desktop and mobile viewport targets matter for review?
+4. Should any page allow deliberate visual deviations from the approved mockup?
+
+Confirm collaboration:
+
+1. Explain that the standard preview workflow delegates product/UX, visual design, frontend implementation, and visual acceptance to separate agents.
+2. Ask once for explicit multi-agent authorization when the user has not already requested delegation.
+3. If subagents are unavailable, disclose the sequential fallback before work begins.
+4. Do not begin the product interview until the coordination mode, role roster, and G1 status have been stated.
 
 Shape the development handoff:
 
@@ -74,6 +84,8 @@ Core workflow:
 Key data objects:
 Constraints:
 Frontend preview scope:
+Reference review viewports:
+Multi-agent delegation: authorized / not authorized / unavailable
 Downstream development target:
 Out of scope:
 

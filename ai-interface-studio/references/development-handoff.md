@@ -4,14 +4,15 @@ Use this after the UI/UX package is approved and before final delivery. Write th
 
 ## Source Of Truth
 
-Record this order in the final document:
+Use domain-specific precedence instead of one total ordering:
 
-1. `uiux-design.md` for exact requirements, copy, fields, permissions, states, and acceptance criteria
-2. Frontend preview for approved interaction and responsive behavior
-3. Design-system image and page mockups for visual direction
-4. Generated bitmap microcopy for direction only
+- User-approved decisions and documented exceptions override earlier artifacts.
+- `uiux-design.md` governs requirements, exact copy, fields, permissions, states, behavior, and acceptance criteria.
+- Approved design-system and page mockups plus the visual-fidelity contract govern composition, hierarchy, palette, typography scale, spacing, component appearance, and density.
+- The accepted frontend preview demonstrates behavior and responsive implementation after visual review.
+- Generated bitmap microcopy remains directional only.
 
-When artifacts conflict, update the lower-priority artifact or explicitly document the exception.
+When behavioral and visual sources conflict, the coordinator must record a decision. The implementation agent must not silently choose the easier interpretation.
 
 ## Stable Identifiers
 
@@ -56,6 +57,10 @@ Describe only the capabilities future engineering must provide: consumer page or
 
 Write observable criteria with stable `AC-###` IDs. Cover content, interaction, state changes, responsive behavior, accessibility, and role-sensitive behavior. Prefer Given/When/Then when it makes the result clearer.
 
+### Visual Fidelity Evidence
+
+For every implemented `PAGE-###`, link the approved mockup, exact viewport, browser screenshot, relevant `VIS-###` findings, and final pass status. Keep `visual-review.md` as review evidence, not a competing design specification.
+
 ## Preview-To-Production Guidance
 
 If the production stack matches the preview, identify reusable routes, components, tokens, UI models, and mock service adapters. Keep fixtures and mock operations outside visual components so future developers can replace them cleanly.
@@ -70,6 +75,10 @@ Never describe the preview as production-ready. Backend architecture, persistenc
 - Every `page-scroll` page has a complete ordered section list and coverage segments for its top, middle, and bottom content.
 - Every critical flow reaches at least one acceptance criterion.
 - Every preview route maps back to the design document.
+- Every implemented page has a frozen visual-fidelity contract.
+- Every implemented page has same-viewport reference and browser screenshot evidence.
+- The final visual review was performed by an agent that did not implement the preview, or the sequential fallback limitation is disclosed.
+- No blocker or major `VIS-###` finding remains open.
 - Mock data is distinguishable from production data requirements.
 - API capability needs describe outcomes without prescribing backend architecture.
 - Known gaps and assumptions are explicit.

@@ -6,11 +6,12 @@ Use these patterns before generating mockup images. Keep prompts specific enough
 
 1. Global Prompt Requirements
 2. Page Coverage Rules
-3. Design-System Image Prompt
-4. Single-Viewport Page Prompt
-5. Scrollable Page Segment Prompt
-6. Mobile Page Prompt
-7. Stronger Visual Concepts
+3. Post-Generation Visual Handoff
+4. Design-System Image Prompt
+5. Single-Viewport Page Prompt
+6. Scrollable Page Segment Prompt
+7. Mobile Page Prompt
+8. Stronger Visual Concepts
 
 ## Global Prompt Requirements
 
@@ -40,6 +41,23 @@ Every image prompt should include:
 - Give adjacent segments a shared continuity anchor, such as the end of a table, section heading, or partially continued content block.
 - Do not compress a long page into tiny unreadable content. Do not stop after the top frame.
 - Count segments when estimating batch size and record every prompt in `image-prompts.md` for runs over 8 business-page frames.
+
+## Post-Generation Visual Handoff
+
+After generating each approved image, the visual design agent must inspect the actual saved bitmap at readable resolution. Do not derive the implementation contract from the prompt alone.
+
+Record these observed properties in the page's visual-fidelity contract:
+
+- Exact reference file and intended viewport
+- Application shell and major region proportions
+- Section order, grid, alignment, and whitespace distribution
+- Typography hierarchy and approximate scale relationships
+- Palette roles, surfaces, borders, radii, shadows, and icon treatment
+- Component type, placement, size, variants, and content density
+- Sticky or scrolling behavior implied by sequential frames
+- Any ambiguity, inconsistency, or technically allowed deviation
+
+If related mockups contradict each other, resolve or document the contradiction before frontend implementation. The implementation agent must not guess which image to follow.
 
 ## Design-System Image Prompt
 

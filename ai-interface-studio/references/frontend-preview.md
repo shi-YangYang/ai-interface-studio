@@ -2,6 +2,20 @@
 
 Use this only after the UI/UX package is approved and the user requests a browser-ready preview. The preview is a design prototype, not a full-stack application.
 
+The frontend implementation agent owns this stage. It must be separate from the coordinator and visual acceptance agent.
+
+## Entry Gate
+
+Do not write preview code until all of these exist:
+
+- User-approved design-system image and page mockups
+- Complete `uiux-design.md`
+- A frozen visual-fidelity contract for every route in scope
+- Exact reference viewport for every mockup
+- Coordinator-provided route and ownership scope
+
+The implementation agent must open and inspect the original images before editing. A textual summary is not a substitute.
+
 ## Scope Boundary
 
 Build only the frontend experience needed to review the approved product direction.
@@ -35,10 +49,13 @@ Prefer the existing repository stack if there is one. If the target project is e
 
 ## Build Rules
 
-- Treat `uiux-design.md` as the source of truth.
-- Use generated mockups as visual direction, not as exact text extraction.
+- Treat `uiux-design.md` as authoritative for requirements, exact copy, fields, states, permissions, and behavior.
+- Treat approved mockups and their visual-fidelity contracts as authoritative for shell geometry, page composition, visual hierarchy, palette, typography scale, spacing, component appearance, and density.
+- Treat generated bitmap microcopy as directional only. Do not weaken the visual composition because small generated text is uncertain.
 - Implement real HTML/CSS components rather than embedding the bitmap mockups as the UI.
 - Build the first screen as the actual app surface, not a marketing landing page.
+- Implement the shared application shell first and capture a matching-viewport screenshot before building all pages.
+- Work in small page batches. Do not implement the complete preview in one unreviewed pass.
 - Implement the complete confirmed content order for every `page-scroll` route, not only the first viewport represented by its top mockup.
 - Implement the confirmed routes and interactions with mock data and local state.
 - Make key actions visibly respond, but keep network operations stubbed.
@@ -46,6 +63,8 @@ Prefer the existing repository stack if there is one. If the target project is e
 - Keep dashboard and admin surfaces dense, scannable, and work-focused.
 - Use stable dimensions for boards, toolbars, cards, tables, icon buttons, and counters so interactions do not resize the layout.
 - Use lucide icons for common actions and tool buttons when available.
+- Do not replace distinctive approved components with generic cards, tables, navigation, or dashboard patterns merely because they are easier to implement.
+- Record any technically necessary deviation and wait for coordinator approval before treating it as accepted.
 - Do not add backend dependencies or present placeholder integrations as real.
 
 ## Handoff-Friendly Structure
@@ -73,10 +92,13 @@ src/
 
 - Start the local dev server when needed.
 - Open the app in a browser.
-- Capture desktop and mobile screenshots.
+- Capture screenshots at the exact viewport of each reference image. Capture additional mobile screenshots only for confirmed mobile targets.
 - Capture a full-page browser screenshot for every `page-scroll` route, alongside normal viewport screenshots.
 - Scroll through the top, middle, and bottom of long routes and verify all sections in the page coverage plan.
 - Check that sticky headers, sidebars, and action bars do not hide content while scrolling.
 - Exercise the confirmed navigation and interactions.
 - Check for blank screens, overlapping text, broken assets, layout shifts, unreadable controls, dead controls, and console errors.
-- Iterate until the preview matches the approved direction well enough for review.
+- Hand the running preview, route map, and screenshot paths to an independent visual acceptance agent.
+- Read `visual-fidelity-review.md` for the comparison and rejection rules.
+- Fix every blocker and major `VIS-###` finding, then request a complete re-review of each affected page.
+- Do not self-approve the preview or describe it as visually accepted before the independent report passes.
