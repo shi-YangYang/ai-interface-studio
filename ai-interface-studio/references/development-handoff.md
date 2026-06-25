@@ -8,7 +8,7 @@ Use domain-specific precedence instead of one total ordering:
 
 - User-approved decisions and documented exceptions override earlier artifacts.
 - `uiux-design.md` governs requirements, exact copy, fields, permissions, states, behavior, and acceptance criteria.
-- Approved design-system and page mockups plus the visual-fidelity contract govern composition, hierarchy, palette, typography scale, spacing, component appearance, and density.
+- Approved design-system image governs palette, typography scale, spacing rhythm, shell language, component appearance, and density. Approved page mockups plus the visual-fidelity contract govern page composition, hierarchy, section order, and workflow structure.
 - The accepted frontend preview demonstrates behavior and responsive implementation after visual review.
 - Generated bitmap microcopy remains directional only.
 
@@ -72,7 +72,7 @@ Never describe the preview as production-ready. Backend architecture, persistenc
 ## Final Checks
 
 - Every confirmed page has a `PAGE-###` entry.
-- Every `page-scroll` page has a complete ordered section list, an approved same-size overview image, and normal-scale detail segment references for its top, middle, and bottom content.
+- Every `page-scroll` page has a complete ordered section list, exactly one approved vertical long-page mockup, and a recorded image-to-browser scale contract.
 - Every critical flow reaches at least one acceptance criterion.
 - Every preview route maps back to the design document.
 - Every implemented page has a frozen visual-fidelity contract.

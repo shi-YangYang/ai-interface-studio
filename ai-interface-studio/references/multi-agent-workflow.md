@@ -42,7 +42,8 @@ If the user has not explicitly authorized delegation, ask for that authorization
 ### Visual Design Agent
 
 - Own the design-system image, page mockups, image prompts, visual consistency, and the draft visual-fidelity contract.
-- Inspect the overview image and all preceding detail frames when generating scroll segments or related pages.
+- Inspect `00-design-system.png` before every page prompt, and regenerate page mockups that do not inherit its visual system.
+- For scrolling pages, generate exactly one vertical long-page mockup, reject landscape overview outputs, and record the image-to-browser scale contract.
 - Return original artifact paths and unresolved visual risks. Do not implement frontend code.
 
 ### Frontend Implementation Agent

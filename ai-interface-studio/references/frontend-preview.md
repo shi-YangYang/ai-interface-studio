@@ -11,7 +11,7 @@ Do not write preview code until all of these exist:
 - User-approved design-system image and page mockups
 - Complete `uiux-design.md`
 - A frozen visual-fidelity contract for every route in scope
-- Exact reference viewport for every mockup, plus the overview image and detail segment strategy for every `page-scroll` route
+- Exact reference viewport for every mockup, plus image dimensions and scale contract for every vertical long-page `page-scroll` route
 - Coordinator-provided route and ownership scope
 
 The implementation agent must open and inspect the original images before editing. A textual summary is not a substitute.
@@ -50,15 +50,17 @@ Prefer the existing repository stack if there is one. If the target project is e
 ## Build Rules
 
 - Treat `uiux-design.md` as authoritative for requirements, exact copy, fields, states, permissions, and behavior.
-- Treat approved mockups and their visual-fidelity contracts as authoritative for shell geometry, page composition, visual hierarchy, palette, typography scale, spacing, component appearance, and density.
+- Treat `00-design-system.png` and its recorded visual tokens as authoritative for palette, typography hierarchy, shell language, component shapes, spacing rhythm, icon treatment, and density.
+- Treat approved page mockups and their visual-fidelity contracts as authoritative for page composition, section order, major region proportions, visual hierarchy, and workflow structure.
 - Treat generated bitmap microcopy as directional only. Do not weaken the visual composition because small generated text is uncertain.
 - Implement real HTML/CSS components rather than embedding the bitmap mockups as the UI.
 - Build the first screen as the actual app surface, not a marketing landing page.
 - Implement the shared application shell first and capture a matching-viewport screenshot before building all pages.
 - Work in small page batches. Do not implement the complete preview in one unreviewed pass.
 - Implement the complete confirmed content order for every `page-scroll` route, not only the first viewport represented by its top mockup.
-- For `page-scroll` routes, use the overview image as the top-to-bottom composition and transition reference, and use normal-scale detail segments for typography, spacing, component shape, data density, and local styling.
-- Align shared overlap anchors between adjacent detail segments exactly enough that scrolling through the browser page feels continuous rather than stitched. Do not implement a page as independent viewport chunks that change spacing, shell, or component language at scroll boundaries.
+- For `page-scroll` routes, use the single approved vertical long-page mockup as the top-to-bottom composition, proportion, and transition reference. Use the design-system image and visual-fidelity contract for local typography, spacing, component shape, data density, and styling.
+- Implement according to the scale contract: reference image width maps to the browser CSS viewport width, and full-page screenshot height should match the reference image height after applying the same scale. Do not treat the long image as a landscape board or thumbnail.
+- Do not implement a scrolling page as independent chunks that change spacing, shell, or component language at scroll boundaries. Do not invent missing sections that are not present in the long-page mockup or `uiux-design.md`.
 - Implement the confirmed routes and interactions with mock data and local state.
 - Make key actions visibly respond, but keep network operations stubbed.
 - Include expected states where feasible: empty, loading, error, disabled, selected, and permission-limited.
@@ -95,9 +97,9 @@ src/
 - Start the local dev server when needed.
 - Open the app in a browser.
 - Capture screenshots at the exact viewport of each reference image. Capture additional mobile screenshots only for confirmed mobile targets.
-- Capture a full-page browser screenshot for every `page-scroll` route, alongside normal viewport screenshots. Compare the full-page browser screenshot against the approved overview for structure and continuity, then compare viewport screenshots against the normal-scale detail segments.
+- Capture a full-page browser screenshot for every `page-scroll` route, alongside normal viewport screenshots. Compare the full-page browser screenshot against the approved vertical long-page mockup using the recorded scale contract, then compare local styling against the design-system image and visual-fidelity contract.
 - Scroll through the top, middle, and bottom of long routes and verify all sections in the page coverage plan.
-- For segmented references, inspect every boundary overlap and verify that shell geometry, section transitions, spacing, typography, palette, and component styling do not visibly reset.
+- Inspect scroll boundaries and verify that shell geometry, section transitions, spacing, typography, palette, and component styling do not visibly reset.
 - Check that sticky headers, sidebars, and action bars do not hide content while scrolling.
 - Exercise the confirmed navigation and interactions.
 - Check for blank screens, overlapping text, broken assets, layout shifts, unreadable controls, dead controls, and console errors.

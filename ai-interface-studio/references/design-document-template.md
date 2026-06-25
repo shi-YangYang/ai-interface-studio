@@ -55,24 +55,24 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 
 ## 5. Generated Images
 
-| File | Page ID | Page | Segment | Viewport | Approval | Coverage |
+| File | Page ID | Page | Reference Type | Viewport | Approval | Coverage |
 | --- | --- | --- | --- | --- | --- | --- |
 | [00-design-system.png](00-design-system.png) | N/A | Design system | N/A | 1440x900 | Approved | Global visual/component rules |
 | [01-login.png](01-login.png) | `PAGE-001` | Login | Single | 1440x900 | Approved | Complete page |
-| [03-settings-overview.png](03-settings-overview.png) | `PAGE-003` | Settings | Overview | 1440x900 | Approved | Complete scroll-page structure |
-| [03-settings-01-top.png](03-settings-01-top.png) | `PAGE-003` | Settings | 1/3 Top | 1440x900 | Approved | Header, profile, account |
+| [03-settings-long.png](03-settings-long.png) | `PAGE-003` | Settings | Vertical long-page | 864x1821 | Approved | Complete scroll-page structure |
 
 ## 6. Page Specifications
 
 ### 6.1 [Page Name]
 
 - Scroll model: single viewport / page scroll / internal scroll
-- Coverage strategy: single viewport / overview plus detail segments / internal scroll
+- Coverage strategy: single viewport / vertical long-page / internal scroll
 - Reference viewport:
+- Reference browser CSS width:
+- Image pixel dimensions:
+- Scale contract:
 - Images in reading order:
-  1. `[file-name-overview.png](file-name-overview.png)`
-  2. `[file-name-01-top.png](file-name-01-top.png)`
-  3. `[file-name-02-content.png](file-name-02-content.png)`
+  1. `[file-name-long.png](file-name-long.png)`
 - Full content order:
 - Sticky elements:
 - Internal scrolling regions:
@@ -92,21 +92,19 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 
 #### Page Coverage Plan
 
-| Segment | Image | Scroll Position | Required Sections | Previous / Next Continuity Anchor |
+| Reference Type | Image | Scroll Position | Required Sections | Continuity Role |
 | --- | --- | --- | --- | --- |
-| Overview | `file-name-overview.png` | Full page compressed into same-size image | ... | One uninterrupted page map |
-| 1/3 | `file-name-01-top.png` | Top | ... | None / ... |
-| 2/3 | `file-name-02-content.png` | Middle | ... | ... / ... |
-| 3/3 | `file-name-03-bottom.png` | Bottom | ... | ... / None |
+| Vertical long-page | `file-name-long.png` | Full scroll page | ... | Canonical implementation reference |
 
 #### Visual Fidelity Contract
 
 - Canonical reference images:
 - Reference viewport:
 - Coverage strategy and continuity rule:
-  - Overview image controls top-to-bottom composition and section transitions.
-  - Detail segments control local typography, spacing, components, and density.
-  - Adjacent detail segments must share 15-25% overlap anchors and must not visibly reset, drift, or contradict the overview.
+  - `00-design-system.png` controls palette, typography hierarchy, shell language, component shapes, spacing rhythm, icon treatment, and density.
+  - Vertical long-page mockup controls top-to-bottom composition, section order, section transitions, and page-level proportions.
+  - Scale formula: `reference_css_width / image_pixel_width = scale`; `expected_css_page_height = image_pixel_height * scale`.
+  - No landscape overview, same-size compressed overview, or separate AI-generated detail segment may override the long-page mockup or design system.
 - Visual invariants that must remain recognizable:
 - Allowed deviations:
 - Responsive transformation:
@@ -222,7 +220,7 @@ Describe required outcomes only. Do not invent endpoint URLs, database tables, s
 | Page ID | Approved Reference | Browser Screenshot | Viewport | Open VIS Findings | Result |
 | --- | --- | --- | --- | --- | --- |
 | `PAGE-001` | `01-login.png` | `review/PAGE-001.png` | 1440x900 | None | Pass |
-| `PAGE-003` | `03-settings-overview.png` + detail segments | `review/PAGE-003-full.png` | 1440xfull-page | None | Pass |
+| `PAGE-003` | `03-settings-long.png` | `review/PAGE-003-full.png` | 1440xfull-page | None | Pass |
 
 - Visual reviewer: independent agent / sequential fallback
 - Review report: `[visual-review.md](visual-review.md)`
@@ -262,6 +260,6 @@ For projects with more than 8 business-page frames, create a sibling `image-prom
 - Never invent backend architecture or present the frontend preview as a production-ready application.
 - Preserve stable IDs across revisions and keep every critical requirement traceable to at least one page and acceptance criterion.
 - Do not mark a long page complete until every section in its full content order is covered by at least one linked approved image.
-- For long pages, require one same-size overview image plus normal-scale detail segments. Document overlap anchors and reject visible seams, restarted headers, or style drift between adjacent detail segments.
+- For long pages, require one vertical long-page canonical mockup only. Reject landscape overviews, same-size compressed overviews, and later AI-generated detail segments as competing visual sources. Use the scale contract, design-system image, and visual-fidelity contract to resolve bitmap ambiguity.
 - Do not mark a visual-fidelity contract complete when it says only "follow the mockup"; record enough geometry, hierarchy, token, component, and density detail to constrain implementation.
 - Do not mark a preview accepted without same-viewport evidence and zero open blocker or major `VIS-###` findings.
