@@ -59,6 +59,7 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 | --- | --- | --- | --- | --- | --- | --- |
 | [00-design-system.png](00-design-system.png) | N/A | Design system | N/A | 1440x900 | Approved | Global visual/component rules |
 | [01-login.png](01-login.png) | `PAGE-001` | Login | Single | 1440x900 | Approved | Complete page |
+| [03-settings-overview.png](03-settings-overview.png) | `PAGE-003` | Settings | Overview | 1440x900 | Approved | Complete scroll-page structure |
 | [03-settings-01-top.png](03-settings-01-top.png) | `PAGE-003` | Settings | 1/3 Top | 1440x900 | Approved | Header, profile, account |
 
 ## 6. Page Specifications
@@ -66,10 +67,12 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 ### 6.1 [Page Name]
 
 - Scroll model: single viewport / page scroll / internal scroll
+- Coverage strategy: single viewport / overview plus detail segments / internal scroll
 - Reference viewport:
 - Images in reading order:
-  1. `[file-name-01-top.png](file-name-01-top.png)`
-  2. `[file-name-02-content.png](file-name-02-content.png)`
+  1. `[file-name-overview.png](file-name-overview.png)`
+  2. `[file-name-01-top.png](file-name-01-top.png)`
+  3. `[file-name-02-content.png](file-name-02-content.png)`
 - Full content order:
 - Sticky elements:
 - Internal scrolling regions:
@@ -91,6 +94,7 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 
 | Segment | Image | Scroll Position | Required Sections | Previous / Next Continuity Anchor |
 | --- | --- | --- | --- | --- |
+| Overview | `file-name-overview.png` | Full page compressed into same-size image | ... | One uninterrupted page map |
 | 1/3 | `file-name-01-top.png` | Top | ... | None / ... |
 | 2/3 | `file-name-02-content.png` | Middle | ... | ... / ... |
 | 3/3 | `file-name-03-bottom.png` | Bottom | ... | ... / None |
@@ -99,6 +103,10 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 
 - Canonical reference images:
 - Reference viewport:
+- Coverage strategy and continuity rule:
+  - Overview image controls top-to-bottom composition and section transitions.
+  - Detail segments control local typography, spacing, components, and density.
+  - Adjacent detail segments must share 15-25% overlap anchors and must not visibly reset, drift, or contradict the overview.
 - Visual invariants that must remain recognizable:
 - Allowed deviations:
 - Responsive transformation:
@@ -145,6 +153,7 @@ Document mobile and responsive behavior. Do not imply mobile images were generat
 - Local interactions:
 - Design tokens:
 - Reference mockups and viewports:
+- Long-page reference strategy:
 - Visual fidelity target:
 - Screenshot evidence location:
 - Independent review required: yes/no
@@ -213,6 +222,7 @@ Describe required outcomes only. Do not invent endpoint URLs, database tables, s
 | Page ID | Approved Reference | Browser Screenshot | Viewport | Open VIS Findings | Result |
 | --- | --- | --- | --- | --- | --- |
 | `PAGE-001` | `01-login.png` | `review/PAGE-001.png` | 1440x900 | None | Pass |
+| `PAGE-003` | `03-settings-overview.png` + detail segments | `review/PAGE-003-full.png` | 1440xfull-page | None | Pass |
 
 - Visual reviewer: independent agent / sequential fallback
 - Review report: `[visual-review.md](visual-review.md)`
@@ -251,6 +261,7 @@ For projects with more than 8 business-page frames, create a sibling `image-prom
 - Include enough state coverage for a convincing prototype: default, hover/focus where relevant, loading, empty, error, disabled, and permission-denied.
 - Never invent backend architecture or present the frontend preview as a production-ready application.
 - Preserve stable IDs across revisions and keep every critical requirement traceable to at least one page and acceptance criterion.
-- Do not mark a long page complete until every section in its full content order is covered by at least one linked image segment.
+- Do not mark a long page complete until every section in its full content order is covered by at least one linked approved image.
+- For long pages, require one same-size overview image plus normal-scale detail segments. Document overlap anchors and reject visible seams, restarted headers, or style drift between adjacent detail segments.
 - Do not mark a visual-fidelity contract complete when it says only "follow the mockup"; record enough geometry, hierarchy, token, component, and density detail to constrain implementation.
 - Do not mark a preview accepted without same-viewport evidence and zero open blocker or major `VIS-###` findings.

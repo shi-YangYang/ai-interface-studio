@@ -35,7 +35,7 @@ Map each requirement or flow to its page, interaction, preview location, and acc
 
 ### Route And Page Map
 
-For each page, record its stable ID, route or entry point, scroll model, coverage segments, permitted roles, upstream entry, downstream destination, and preview implementation path when one exists.
+For each page, record its stable ID, route or entry point, scroll model, coverage strategy, reference mockups, permitted roles, upstream entry, downstream destination, and preview implementation path when one exists.
 
 ### Component Inventory
 
@@ -59,7 +59,7 @@ Write observable criteria with stable `AC-###` IDs. Cover content, interaction, 
 
 ### Visual Fidelity Evidence
 
-For every implemented `PAGE-###`, link the approved mockup, exact viewport, browser screenshot, relevant `VIS-###` findings, and final pass status. Keep `visual-review.md` as review evidence, not a competing design specification.
+For every implemented `PAGE-###`, link the approved mockup, exact viewport, browser screenshot, full-page screenshot when the page scrolls, relevant `VIS-###` findings, and final pass status. Keep `visual-review.md` as review evidence, not a competing design specification.
 
 ## Preview-To-Production Guidance
 
@@ -72,11 +72,11 @@ Never describe the preview as production-ready. Backend architecture, persistenc
 ## Final Checks
 
 - Every confirmed page has a `PAGE-###` entry.
-- Every `page-scroll` page has a complete ordered section list and coverage segments for its top, middle, and bottom content.
+- Every `page-scroll` page has a complete ordered section list, an approved same-size overview image, and normal-scale detail segment references for its top, middle, and bottom content.
 - Every critical flow reaches at least one acceptance criterion.
 - Every preview route maps back to the design document.
 - Every implemented page has a frozen visual-fidelity contract.
-- Every implemented page has same-viewport reference and browser screenshot evidence.
+- Every implemented page has same-viewport reference and browser screenshot evidence; every implemented `page-scroll` route also has full-page screenshot evidence.
 - The final visual review was performed by an agent that did not implement the preview, or the sequential fallback limitation is disclosed.
 - No blocker or major `VIS-###` finding remains open.
 - Mock data is distinguishable from production data requirements.

@@ -23,8 +23,9 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 - If the user cannot answer a question, offer 2-3 concrete choices and allow "to be decided" only when the risk is called out.
 - Default to desktop web viewport frames around 1440x900 or 16:9. Document mobile/responsive behavior, but do not generate mobile images unless the user explicitly asks.
 - Treat a page and an image as different units. Classify every page as `single-viewport`, `page-scroll`, or `internal-scroll` before image generation.
-- For `page-scroll` pages, generate sequential top, middle, and bottom viewport frames as needed. Do not deliver only the first screen, and do not shrink a long page into one unreadable image.
-- Default soft limit: 8 business-page frames plus 1 design-system image. Count every scroll segment as a frame. If the estimated frame count is larger, warn that generation may be slow, offer to prioritize or split into batches, and proceed only after confirmation.
+- For `page-scroll` pages, generate one same-size full-page overview image plus sequential normal-scale detail frames. The overview image keeps the same viewport/image size as other mockups and compresses the entire long page inside it to show top-to-bottom structure, rhythm, and transitions.
+- Treat the full-page overview as a continuity map, not a detail reference. Generate normal-scale top, middle, and bottom detail frames with 15-25% overlapping continuity anchors between adjacent frames. Do not deliver only the overview or only the first screen.
+- Default soft limit: 8 business-page frames plus 1 design-system image. Count the full-page overview and every detail segment as separate frames. If the estimated frame count is larger, warn that generation may be slow, offer to prioritize or split into batches, and proceed only after confirmation.
 - Every project must have at least one explicit visual concept name, such as "Signal Grid", "Command Canvas", or a domain-specific name.
 - Use image generation for bitmap mockups when available. Treat approved mockups as authoritative for visual composition, hierarchy, density, and component appearance. Treat generated microcopy as directional; precise copy, fields, tables, states, and behavior belong in `uiux-design.md`.
 - Keep progress visible during slow image batches: tell the user which artifact is being prepared, generated, saved, or reviewed.
@@ -51,7 +52,7 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
    - Spawn and delegate requirement synthesis and information architecture to the Product/UX Agent. The coordinator reviews the artifact before presenting it to the user.
    - Summarize the requirement brief.
    - Propose or normalize the page inventory.
-   - Add a page coverage plan: scroll model, ordered content sections, frame count, and the sections covered by each frame.
+   - Add a page coverage plan: scroll model, ordered content sections, coverage strategy (`overview-plus-detail-segments` for long pages), frame count, and the sections covered by each image.
    - Propose at least one named visual concept with color, typography, layout, density, component, and interaction direction.
    - State the total image count from the coverage plan. If it exceeds 8 business-page frames, state the expected slowness and batching options before asking for confirmation.
    - Wait for explicit confirmation before generating final images.
@@ -63,7 +64,8 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
      - `01-login.png`
      - `02-dashboard.png`
      - Continue single-viewport pages with concise lowercase page slugs.
-     - Name scroll segments sequentially, such as `03-settings-01-top.png`, `03-settings-02-content.png`, and `03-settings-03-bottom.png`.
+     - Name long-page overview images as `03-settings-overview.png`.
+     - Name long-page detail segments sequentially, such as `03-settings-01-top.png`, `03-settings-02-content.png`, and `03-settings-03-bottom.png`.
    - Write the main document as `gpt-images/uiux/<project-slug>/uiux-design.md`.
    - Let the coordinator maintain `gpt-images/uiux/<project-slug>/workflow-state.md` as a non-authoritative stage and artifact ledger.
    - For projects with more than 8 business-page frames, write prompts to `gpt-images/uiux/<project-slug>/image-prompts.md` and link it from `uiux-design.md` instead of stuffing every prompt into the main document.
@@ -73,7 +75,8 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
    - Read `references/image-prompt-patterns.md` before generating image prompts.
    - Generate `00-design-system.png` first, then page mockups in inventory order.
    - Generate one frame for `single-viewport` pages. For `internal-scroll` workspaces, show the stable shell and document the internal scrolling region.
-   - Generate every confirmed frame for `page-scroll` pages in top-to-bottom order, with stable global chrome and clear visual continuity between adjacent frames.
+   - For `page-scroll` pages, generate the same-size full-page overview first, then generate every confirmed normal-scale detail frame in top-to-bottom order.
+   - Inspect the overview for complete content order, uninterrupted section transitions, stable chrome, and no collage/panel treatment. Inspect detail frames for local legibility, shared 15-25% overlap, stable shell, and clear continuity between adjacent frames.
    - Review the coverage plan after generation. Every required page section must appear in at least one frame before the page is complete.
    - Mobile mockups are allowed only for pages the user explicitly requested as mobile; name them clearly, such as `01-mobile-repair-request.png`.
    - Keep UI density realistic for the product type; avoid generic admin templates, landing-page hero compositions, and decorative-only visuals.
@@ -82,8 +85,8 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 5. **Design Document And Visual Contract**
    - Read `references/design-document-template.md` before writing `uiux-design.md`.
    - Include PRD-level context, information architecture, page specs, interaction and state notes, visual system, component rules, frontend preview guidance, responsive notes, and the final image prompts.
-   - Reference every generated image segment with relative Markdown links and preserve its top-to-bottom reading order.
-   - For each page, document its scroll model, full content order, frame coverage, sticky elements, and internal scrolling regions.
+   - Reference every generated image with relative Markdown links and preserve its top-to-bottom reading order.
+   - For each page, document its scroll model, full content order, coverage strategy, overview image, detail frame coverage, continuity anchors, sticky elements, and internal scrolling regions.
    - For each page, add a visual-fidelity contract that records reference images and viewport, shell geometry, region proportions, grid, typography hierarchy, palette, spacing, radii, borders, shadows, component appearance, density, responsive transformations, and allowed deviations.
    - Make the document the source of truth for exact copy, fields, states, permissions, and preview behavior. Keep approved mockups and the visual-fidelity contract authoritative for composition and styling; generated bitmap microcopy is direction only.
    - Include a draft handoff contract that maps requirements, flows, pages, components, states, UI data, API capability needs, and acceptance criteria.
@@ -106,7 +109,7 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 8. **Independent Visual Acceptance**
    - Read `references/visual-fidelity-review.md`.
    - Spawn a new Visual Acceptance Agent that did not implement the preview. The acceptance agent must not edit implementation files.
-   - Start the preview, capture screenshots at the exact reference viewports, and compare each route or scroll segment with its approved mockup.
+   - Start the preview, capture screenshots at the exact reference viewports, capture full-page screenshots for `page-scroll` routes, and compare each route against its approved overview plus detail segment set.
    - Write `gpt-images/uiux/<project-slug>/visual-review.md` with `VIS-###` findings, severity, page and region, expected appearance, actual appearance, evidence paths, and required correction.
    - Return blocker and major findings to the implementation agent. Repeat implementation and independent review until none remain.
    - Do not report the frontend preview as accepted when review screenshots are missing, reference images were not inspected, or only functional checks were performed.
@@ -129,4 +132,5 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 - Visual fidelity: approved mockups and contracts remain recognizable in the implemented shell, page composition, typography hierarchy, palette, spacing, component shapes, and density.
 - Evidence-based acceptance: every implemented page has matching reference and browser screenshot evidence, and no blocker or major visual findings remain open.
 - Traceable handoff: downstream product, frontend, backend, and QA teams can locate the approved requirement, UI surface, interaction state, data need, and acceptance criterion without guessing.
-- Complete page coverage: long pages include all confirmed sections across sequential frames, with no missing middle or bottom content and no unreadable page compression.
+- Complete page coverage: long pages include an overview plus all confirmed sections across normal-scale detail frames, with no missing middle or bottom content.
+- Continuous scroll fidelity: long pages should preserve one coherent top-to-bottom composition. The overview must read as one page, and every adjacent detail frame must have overlap anchors with no visible seam, reset, or redesign at boundaries.

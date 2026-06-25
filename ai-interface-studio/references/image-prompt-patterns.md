@@ -9,9 +9,10 @@ Use these patterns before generating mockup images. Keep prompts specific enough
 3. Post-Generation Visual Handoff
 4. Design-System Image Prompt
 5. Single-Viewport Page Prompt
-6. Scrollable Page Segment Prompt
-7. Mobile Page Prompt
-8. Stronger Visual Concepts
+6. Full-Page Overview Prompt
+7. Scrollable Page Segment Prompt
+8. Mobile Page Prompt
+9. Stronger Visual Concepts
 
 ## Global Prompt Requirements
 
@@ -35,12 +36,15 @@ Every image prompt should include:
 
 - Plan full-page content before writing prompts. List every section in top-to-bottom reading order.
 - Use one frame only when the full required page fits legibly in one viewport.
-- For a vertically scrolling page, create as many sequential viewport frames as needed to cover all confirmed sections.
+- For a vertically scrolling page, generate one same-size full-page overview image before detail segments. The overview keeps the same image size as other mockups, but scales down the entire long page inside the image to show complete top-to-bottom structure and continuity.
+- The overview must look like one uninterrupted web page compressed into a readable map. It must not be a collage, storyboard, stacked screenshots, or multiple framed panels.
+- Do not use the overview as the only implementation reference. After the overview, generate normal-scale detail frames for the top, middle, and bottom regions needed to inspect typography, components, spacing, forms, tables, charts, and states.
 - Keep global navigation, page width, typography, spacing, and component styling consistent across all segments.
 - Repeat only genuinely sticky UI. Do not restart the page title, breadcrumbs, or introductory content in every segment.
-- Give adjacent segments a shared continuity anchor, such as the end of a table, section heading, or partially continued content block.
-- Do not compress a long page into tiny unreadable content. Do not stop after the top frame.
-- Count segments when estimating batch size and record every prompt in `image-prompts.md` for runs over 8 business-page frames.
+- Give adjacent segments a 15-25% shared overlap and a named continuity anchor, such as the end of a table, section heading, or partially continued content block.
+- The overview controls top-to-bottom composition and transitions; detail segments control local component detail, spacing, typography, and density. Both must agree at segment boundaries.
+- Do not use the compressed overview as a substitute for normal-scale detail frames. Do not stop after the top frame.
+- Count the overview and all detail segments when estimating batch size and record every prompt in `image-prompts.md` for runs over 8 business-page frames.
 
 ## Post-Generation Visual Handoff
 
@@ -49,12 +53,14 @@ After generating each approved image, the visual design agent must inspect the a
 Record these observed properties in the page's visual-fidelity contract:
 
 - Exact reference file and intended viewport
+- Coverage strategy: single viewport, overview-plus-detail-segments, or internal scroll
 - Application shell and major region proportions
-- Section order, grid, alignment, and whitespace distribution
+- Section order, transitions, grid, alignment, and whitespace distribution
 - Typography hierarchy and approximate scale relationships
 - Palette roles, surfaces, borders, radii, shadows, and icon treatment
 - Component type, placement, size, variants, and content density
-- Sticky or scrolling behavior implied by sequential frames
+- Sticky or scrolling behavior implied by the overview and sequential detail frames
+- Exact overlap anchors between detail frames and any boundary risks
 - Any ambiguity, inconsistency, or technically allowed deviation
 
 If related mockups contradict each other, resolve or document the contradiction before frontend implementation. The implementation agent must not guess which image to follow.
@@ -102,9 +108,50 @@ Use realistic product data shapes and meaningful labels, but keep small text min
 Avoid generic Bootstrap/AdminLTE layouts, marketing landing-page composition, fake browser chrome dominating the image, illegible tiny text, distorted charts, one-note color palette, and decorative elements that do not serve the product workflow.
 ```
 
+## Full-Page Overview Prompt
+
+Use this first for every `page-scroll` page.
+
+```text
+Create one same-size full-page overview image for a vertically scrolling desktop web UI page for [PROJECT_NAME].
+Page: [PAGE_NAME].
+Purpose: [PAGE_PURPOSE].
+Visual concept: [CONCEPT_NAME].
+Canvas: same image size as the normal desktop mockups, around 1440x900 or 16:9. Compress the entire long page into this canvas so the viewer can see the complete page from top to bottom.
+Coverage mode: full-page overview.
+
+Full page content order:
+1. [SECTION_1]
+2. [SECTION_2]
+3. [SECTION_3]
+4. [SECTION_4]
+
+UI structure:
+- [GLOBAL_NAVIGATION_OR_SHELL]
+- [TOP_SECTION]
+- [MIDDLE_SECTIONS]
+- [BOTTOM_SECTION]
+- [STICKY_ELEMENTS_OR_NONE]
+
+Design direction:
+- Palette: [PALETTE]
+- Typography: [TYPOGRAPHY]
+- Layout density: [DENSITY]
+- Component language: [COMPONENT_LANGUAGE]
+- Interaction tone: [INTERACTION_TONE]
+
+Keep a single consistent application shell, content width, grid, typography scale relationship, spacing rhythm, component styling, and visual density across the entire compressed page. Section transitions should feel like natural scroll continuation, not separate screenshots placed together.
+
+Use readable major labels only. Small text is allowed to be schematic because this image is an overview map, not the detail reference. Exact text and field definitions will be documented separately.
+
+Avoid montage layouts, stacked viewport cards, repeated non-sticky headers, restarted page titles in the middle, sudden palette or component changes, missing middle sections, browser chrome, and decorative filler that breaks the product workflow.
+```
+
+After generation, inspect the saved bitmap. Accept it only if the complete page structure is visible and continuous. Then generate normal-scale detail segments for implementation fidelity.
+
 ## Scrollable Page Segment Prompt
 
-Generate all segments for the same page in top-to-bottom order. Reuse the approved design system and the preceding segment as continuity references when available.
+Generate all detail segments for the same page in top-to-bottom order. Reuse the approved design system, the full-page overview, and the preceding detail segment as continuity references.
 
 ```text
 Create segment [SEGMENT_INDEX] of [SEGMENT_TOTAL] for a high-fidelity vertically scrolling desktop web page for [PROJECT_NAME].
@@ -122,16 +169,16 @@ Full page content order:
 
 This segment must show:
 - [SEGMENT_SECTIONS]
-- Continuity from previous segment: [PREVIOUS_ANCHOR_OR_NONE]
-- Continuity into next segment: [NEXT_ANCHOR_OR_NONE]
+- Overlap from previous segment: [PREVIOUS_ANCHOR_OR_NONE], approximately 15-25% of the frame when available
+- Overlap into next segment: [NEXT_ANCHOR_OR_NONE], approximately 15-25% of the frame when available
 - Sticky elements visible at this scroll position: [STICKY_ELEMENTS_OR_NONE]
 
-Keep the same application shell, content width, grid, colors, typography, spacing, components, and realistic data language used by the other segments of this page. This must look like the next viewport reached by scrolling the same page, not a separate page or a redesigned variation.
+Keep the same application shell, content width, grid, colors, typography, spacing, components, and realistic data language used by the overview and other detail segments of this page. This must look like the next viewport reached by scrolling the same page, not a separate page or a redesigned variation.
 
-Do not repeat non-sticky page introductions, omit required sections, squeeze the complete long page into one frame, create montage panels, or add browser chrome that hides the product UI.
+Do not repeat non-sticky page introductions, omit required sections, squeeze the complete long page into one frame, create montage panels, restart the page at segment boundaries, or add browser chrome that hides the product UI.
 ```
 
-After generating all segments, verify that every item in the full page content order is visible in at least one image and that no segment contradicts the others.
+After generating all detail segments, verify that every item in the full page content order is represented by the overview and visible in at least one detail image. Adjacent detail overlaps must line up in shell, section transition, grid, spacing, typography, palette, component style, and content continuation.
 
 ## Mobile Page Prompt
 
@@ -164,7 +211,7 @@ Use key labels only. The page must look implementable as mobile web or an embedd
 Avoid generic mobile templates, playful consumer styling, tiny form text, fake browser chrome dominating the screen, and decorative illustrations that slow down the workflow.
 ```
 
-Apply the same segmented coverage rule to mobile pages that extend beyond one phone viewport.
+Apply the same overview-plus-detail-segments rule to mobile pages that extend beyond one phone viewport.
 
 ## Stronger Visual Concepts
 
