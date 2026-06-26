@@ -12,9 +12,10 @@ Use this structure for `gpt-images/uiux/<project-slug>/uiux-design.md`. Keep it 
 6. Page Specifications
 7. Component And Interaction Rules
 8. Responsive And Mobile Notes
-9. Frontend Preview Specification
-10. Development Handoff Contract
-11. Image Prompts
+9. Frontend Implementation Strategy
+10. Frontend Preview Specification
+11. Development Handoff Contract
+12. Image Prompts
 
 ```md
 # [Project Name] UI/UX Design
@@ -141,7 +142,47 @@ Freeze this contract before preview implementation. Record any later change as a
 
 Document mobile and responsive behavior. Do not imply mobile images were generated unless the user explicitly requested them.
 
-## 9. Frontend Preview Specification
+## 9. Frontend Implementation Strategy
+
+Freeze this section and get user approval before preview code starts.
+
+- Strategy status: proposed / approved / revised
+- Approved by:
+- Target repository:
+- Framework and runtime:
+- UI library:
+- Styling system:
+- Icon set:
+- Charting and data visualization:
+- Drawing / diagram technology:
+- 3D / rendering technology:
+- Motion / animation:
+- Supporting image or media assets:
+- Required custom components:
+- Reference reconstruction mode: required
+- Rejected alternatives:
+- Known fidelity risks:
+
+| Page / Region | Reference Visual | Implementation Method | Library / Asset | Fidelity Risk | Acceptance Note |
+| --- | --- | --- | --- | --- | --- |
+| `PAGE-001` / ... | `01-...png` | ... | ... | Low/Medium/High | ... |
+
+### 9.1 Reference Reconstruction Map
+
+Use this as the implementation checklist for screenshot-level reproduction. Default `Omission Allowed` to `No`; any `Yes` must be explicitly approved by the user.
+
+| ID | Page / Region | Visible Element Or Effect | Reference Evidence | Required Implementation | Match Rule | Omission Allowed |
+| --- | --- | --- | --- | --- | --- | --- |
+| `RECON-001` | `PAGE-001` / ... | ... | `01-...png` | ... | same count / order / alignment / proportion / layer treatment | No |
+
+Rules:
+
+- Do not use the default stack until this strategy is approved.
+- Do not replace distinctive UI, charts, drawings, 3D effects, maps, or material treatments with generic components unless the deviation is approved here.
+- Do not begin frontend implementation until every implemented route has a reconstruction map.
+- If the chosen stack cannot reproduce an approved region, return to the coordinator for a revised strategy before implementation.
+
+## 10. Frontend Preview Specification
 
 - Preview required: yes/no
 - Preview scope:
@@ -159,41 +200,43 @@ Document mobile and responsive behavior. Do not imply mobile images were generat
 - Accessibility notes:
 - Explicitly out of scope: backend services, databases, production authentication, payments, external service integrations, deployment, and operations
 
-## 10. Development Handoff Contract
+## 11. Development Handoff Contract
 
-### 10.1 Source Of Truth
+### 11.1 Source Of Truth
 
 - Requirements, exact copy, fields, permissions, states, behavior, and acceptance criteria: `uiux-design.md`
 - Composition, visual hierarchy, palette, typography scale, spacing, component appearance, and density: approved mockups plus the visual-fidelity contract
+- Technical reproduction choices for preview: approved frontend implementation strategy
+- Required visible elements and effects for preview: reference reconstruction map
 - Approved interaction and responsive behavior: accepted frontend preview
 - Generated bitmap microcopy: direction only
 - Conflicts: explicit coordinator decision required
 
-### 10.2 Traceability Map
+### 11.2 Traceability Map
 
 | Requirement / Flow ID | Page ID / Route | Interaction Or State | Preview Location | Acceptance IDs | Visual Review IDs |
 | --- | --- | --- | --- | --- | --- |
 | `REQ-001` / `FLOW-001` | `PAGE-001` / `/example` | `STATE-001` | `src/pages/...` | `AC-001` | `VIS-001` |
 
-### 10.3 Route And Page Map
+### 11.3 Route And Page Map
 
 | Page ID | Page | Route / Entry | Scroll Model | Reference Mockups | Review Viewport | Roles | Upstream | Downstream | Preview Path |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `PAGE-001` | ... | ... | ... | ... | ... | ... | ... | ... | ... |
 
-### 10.4 Component Inventory
+### 11.4 Component Inventory
 
-| Component ID | Component | Variants / States | Used By | Token Dependencies | Reuse Notes |
-| --- | --- | --- | --- | --- | --- |
-| `COMP-001` | ... | ... | ... | ... | ... |
+| Component ID | Component | Variants / States | Used By | Implementation Method | Token Dependencies | Reuse Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| `COMP-001` | ... | ... | ... | ... | ... | ... |
 
-### 10.5 Interaction And State Matrix
+### 11.5 Interaction And State Matrix
 
 | Flow / Page | Trigger | Preconditions | Loading | Success | Empty | Error | Disabled / Denied | Next Step |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... |
 
-### 10.6 UI Data Contracts
+### 11.6 UI Data Contracts
 
 | View Model | Field | Type | Required | Meaning | Example | Validation / Formatting | Visibility |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -201,7 +244,7 @@ Document mobile and responsive behavior. Do not imply mobile images were generat
 
 These are UI-facing contracts, not database schemas.
 
-### 10.7 API Capability Requirements
+### 11.7 API Capability Requirements
 
 | Capability ID | Consumer Page / Flow | Operation | Input | Expected Output | Error Cases | Permission | Data Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -209,24 +252,25 @@ These are UI-facing contracts, not database schemas.
 
 Describe required outcomes only. Do not invent endpoint URLs, database tables, service boundaries, or infrastructure.
 
-### 10.8 Acceptance Criteria
+### 11.8 Acceptance Criteria
 
 | Acceptance ID | Requirement / Flow | Given | When | Then | Viewport / Role |
 | --- | --- | --- | --- | --- | --- |
 | `AC-001` | ... | ... | ... | ... | ... |
 
-### 10.9 Visual Fidelity Evidence
+### 11.9 Visual Fidelity Evidence
 
-| Page ID | Approved Reference | Browser Screenshot | Viewport | Open VIS Findings | Result |
-| --- | --- | --- | --- | --- | --- |
-| `PAGE-001` | `01-login.png` | `review/PAGE-001.png` | 1440x900 | None | Pass |
-| `PAGE-003` | `03-settings-long.png` | `review/PAGE-003-full.png` | 1440xfull-page | None | Pass |
+| Page ID | Approved Reference | Browser Screenshot | Viewport | Open VIS Findings | Repair Owner | Result |
+| --- | --- | --- | --- | --- | --- | --- |
+| `PAGE-001` | `01-login.png` | `review/PAGE-001.png` | 1440x900 | None | N/A | Pass |
+| `PAGE-003` | `03-settings-long.png` | `review/PAGE-003-full.png` | 1440xfull-page | None | N/A | Pass |
 
 - Visual reviewer: independent agent / sequential fallback
 - Review report: `[visual-review.md](visual-review.md)`
+- Repair routing: coordinator routed findings only; code changes were made by Frontend Implementation Agent / Frontend Repair Agent / N/A
 - Accepted deviations:
 
-### 10.10 Preview-To-Production Guidance
+### 11.10 Preview-To-Production Guidance
 
 - Reusable preview routes/components/tokens:
 - Mock fixtures and adapters to replace:
@@ -234,7 +278,7 @@ Describe required outcomes only. Do not invent endpoint URLs, database tables, s
 - Known gaps and assumptions:
 - Explicitly out of scope:
 
-## 11. Image Prompts
+## 12. Image Prompts
 
 Store the final prompt used for each generated image. This makes regeneration and iteration possible.
 
@@ -256,6 +300,9 @@ For projects with more than 8 business-page frames, create a sibling `image-prom
 - Link images relatively so the folder can move as a unit.
 - State assumptions plainly.
 - Keep preview guidance practical; name components, mock data shapes, and local interactions when helpful.
+- Do not let preview implementation start until the frontend implementation strategy is approved and recorded.
+- Do not let preview implementation start until the reference reconstruction map is approved and recorded.
+- Do not let the coordinator repair frontend code. If visual review fails, route `VIS-###` fixes to the Frontend Implementation Agent or a Frontend Repair Agent.
 - Include enough state coverage for a convincing prototype: default, hover/focus where relevant, loading, empty, error, disabled, and permission-denied.
 - Never invent backend architecture or present the frontend preview as a production-ready application.
 - Preserve stable IDs across revisions and keep every critical requirement traceable to at least one page and acceptance criterion.

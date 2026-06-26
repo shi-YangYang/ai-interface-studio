@@ -17,7 +17,8 @@ Use this checklist to run a product-manager-style interview. Ask only 3-5 questi
 - Technical or organizational constraints
 - Delivery scope: images and document only, or images, document, and an optional frontend preview
 - Preview scope when requested: routes, key interactions, responsive targets, and states that must be demonstrable
-- Preview fidelity target: reference viewports, pages that require close visual reproduction, and acceptable deviations
+- Preview fidelity target: reference viewports, pages that require screenshot-level reconstruction, and acceptable deviations
+- Preview implementation constraints when requested: preferred framework, UI library, styling system, charting/drawing/3D needs, asset constraints, and libraries to use or avoid
 - Collaboration mode: coordinator-led multi-agent workflow when explicitly authorized, or disclosed sequential fallback
 - Explicitly out of scope: backend services, databases, real authentication, production integrations, deployment, and operations
 
@@ -49,6 +50,8 @@ Shape the optional preview:
 2. Which routes and interactions must be clickable in the preview?
 3. Which desktop and mobile viewport targets matter for review?
 4. Should any page allow deliberate visual deviations from the approved mockup?
+5. Are there preferred or forbidden frontend libraries for UI components, charts, drawing, 3D scenes, maps, animation, or assets?
+6. Should the frontend preview default to screenshot-level reconstruction, where visible major elements are omitted only by explicit approval?
 
 Confirm collaboration:
 
@@ -85,6 +88,7 @@ Key data objects:
 Constraints:
 Frontend preview scope:
 Reference review viewports:
+Frontend implementation constraints:
 Multi-agent delegation: authorized / not authorized / unavailable
 Downstream development target:
 Out of scope:
@@ -101,10 +105,20 @@ Out of scope:
 | Page | Scroll Model | Frames | Ordered Sections | Sticky / Internal Scroll Notes |
 | --- | --- | ---: | --- | --- |
 | Login | Single viewport | 1 | Authentication form | None |
-| Settings | Page scroll | 3 | Header -> profile -> security -> notifications -> danger zone | Sticky section nav |
+| Settings | Page scroll | 1 | Header -> profile -> security -> notifications -> danger zone | One vertical long-page mockup; sticky section nav |
 
 Total business-page frames:
 Total images including design system:
+
+## Frontend Implementation Strategy Preview
+
+Framework/runtime:
+UI library:
+Styling system:
+Charts/drawing/3D needs:
+Supporting assets:
+Reference reconstruction target:
+Known fidelity risks:
 
 ## Visual Concept
 

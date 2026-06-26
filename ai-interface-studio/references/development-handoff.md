@@ -9,10 +9,13 @@ Use domain-specific precedence instead of one total ordering:
 - User-approved decisions and documented exceptions override earlier artifacts.
 - `uiux-design.md` governs requirements, exact copy, fields, permissions, states, behavior, and acceptance criteria.
 - Approved design-system image governs palette, typography scale, spacing rhythm, shell language, component appearance, and density. Approved page mockups plus the visual-fidelity contract govern page composition, hierarchy, section order, and workflow structure.
+- The approved frontend implementation strategy governs preview framework, UI library, styling system, charting/drawing/3D libraries, supporting assets, and custom component choices.
+- The reference reconstruction map governs which visible elements and effects must appear in the preview.
 - The accepted frontend preview demonstrates behavior and responsive implementation after visual review.
 - Generated bitmap microcopy remains directional only.
 
 When behavioral and visual sources conflict, the coordinator must record a decision. The implementation agent must not silently choose the easier interpretation.
+When visual review returns code defects, the coordinator records the decision and delegates the fix. The coordinator must not patch preview code or assets.
 
 ## Stable Identifiers
 
@@ -39,7 +42,7 @@ For each page, record its stable ID, route or entry point, scroll model, coverag
 
 ### Component Inventory
 
-List shared components with their IDs, variants, states, owning pages, design-token dependencies, and reuse guidance. Distinguish global components from page-specific compositions.
+List shared components with their IDs, variants, states, owning pages, implementation method, design-token dependencies, and reuse guidance. Distinguish global components from page-specific compositions.
 
 ### Interaction And State Matrix
 
@@ -76,7 +79,9 @@ Never describe the preview as production-ready. Backend architecture, persistenc
 - Every critical flow reaches at least one acceptance criterion.
 - Every preview route maps back to the design document.
 - Every implemented page has a frozen visual-fidelity contract.
+- Every implemented page is covered by an approved frontend implementation strategy, visual technology map, and reference reconstruction map.
 - Every implemented page has same-viewport reference and browser screenshot evidence; every implemented `page-scroll` route also has full-page screenshot evidence.
+- Any blocker or major repair was performed by the Frontend Implementation Agent or an assigned Frontend Repair Agent, not by the coordinator.
 - The final visual review was performed by an agent that did not implement the preview, or the sequential fallback limitation is disclosed.
 - No blocker or major `VIS-###` finding remains open.
 - Mock data is distinguishable from production data requirements.

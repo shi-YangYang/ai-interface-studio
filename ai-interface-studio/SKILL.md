@@ -12,8 +12,10 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 - Read `references/multi-agent-workflow.md` at the start of every project.
 - Use a coordinator-led multi-agent workflow when subagent tools are available and the user has explicitly authorized delegation. If delegation has not been authorized, ask once before spawning specialists.
 - When multi-agent mode is authorized, actually spawn distinct specialist agents. Do not simulate the workflow by having one agent announce that it will act as different personas later.
-- Keep the coordinator in charge of user communication, stage gates, artifact paths, and conflict resolution. The coordinator must not generate final mockups or implement preview code.
+- Keep the coordinator in charge of user communication, user-facing decisions, stage gates, artifact paths, agent management, and conflict resolution. The coordinator must not generate final mockups, implement preview code, patch frontend files, edit preview assets, or perform code-level fixes.
 - Delegate product/UX, visual design, frontend implementation, and visual acceptance to separate agents with narrow context packets and disjoint ownership.
+- Treat approved page mockups as screenshot-reconstruction targets for the frontend preview, not loose inspiration. Every visible major region, UI element group, distinctive component, chart, drawing, 3D/rendering effect, image treatment, and interaction surface must be implemented or listed as a user-approved deviation.
+- Before preview code is written, the coordinator must analyze the approved mockups and propose a frontend implementation strategy for user approval. The strategy must name the framework, UI library, styling system, icon set, charting/drawing library, 3D/rendering library, animation approach, asset plan, custom components, and reference reconstruction map required to reproduce distinctive visuals.
 - If subagents are unavailable, execute the same roles sequentially with artifact checkpoints, disclose that the review is not independent, and never pretend multi-agent validation occurred.
 - Pass specialists approved files and image paths, not a compressed conversational summary. Every implementation and acceptance agent must inspect the original mockups.
 - Mirror the user's language. If the user writes in Chinese, keep interviews, confirmations, image labels, and `uiux-design.md` in Chinese unless the user asks otherwise.
@@ -31,14 +33,15 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 - Use image generation for bitmap mockups when available. Treat the approved design-system image as binding for palette, typography hierarchy, shell language, component shapes, spacing rhythm, icon treatment, and density. Treat approved page mockups as authoritative for page composition, hierarchy, and workflow structure. Treat generated microcopy as directional; precise copy, fields, tables, states, and behavior belong in `uiux-design.md`.
 - Keep progress visible during slow image batches: tell the user which artifact is being prepared, generated, saved, or reviewed.
 - For large projects, avoid one huge response. Output or write artifacts in this order: confirmed file list, image prompts in chunks or `image-prompts.md`, generated images, then `uiux-design.md`.
-- Do not start preview implementation until the mockups are approved and every implemented page has a visual-fidelity contract inside `uiux-design.md`.
+- Do not start preview implementation until the mockups are approved, every implemented page has a visual-fidelity contract inside `uiux-design.md`, and the user has approved the frontend implementation strategy and reference reconstruction map.
 - After images and `uiux-design.md` are approved, offer an interactive frontend preview. Do not build preview code by default unless the user already requested it.
 - Keep the preview frontend-only: use mock data, local state, and stubbed actions. Do not add backend APIs, databases, production authentication, payment flows, external service integrations, cloud resources, deployment pipelines, or production operations.
 - Describe the preview as a prototype, not a production-ready application.
 - Keep `uiux-design.md` as the single textual product and handoff specification. Put the visual-fidelity and development handoff contracts inside it instead of creating competing specification documents.
 - Use stable requirement, flow, page, component, state, and acceptance IDs for multi-page projects so downstream teams can trace decisions across artifacts.
-- Never accept a preview based only on functional correctness. Require an independent same-viewport screenshot review against every approved mockup and close all blocker and major `VIS-###` findings before delivery.
-- Before domain questions, report `Coordination mode`, the coordinator, the four specialist agents, and `Current gate: G1; status: in progress`. If authorization is missing, the first confirmation request must be permission to use the multi-agent workflow.
+- Never accept a preview based only on functional correctness. Require an independent same-viewport screenshot review against every approved mockup and close all blocker and major `VIS-###` findings before delivery. Missing UI elements, substituted generic components, simplified charts, broken 3D/drawing effects, or unapproved static placeholders are blocker/major visual issues.
+- When visual acceptance returns findings, the coordinator must triage, ask the user about any design decision or approved deviation, update workflow status, and delegate code changes to the Frontend Implementation Agent or a new Frontend Repair Agent. The coordinator must not fix the code directly.
+- Before domain questions, report `Coordination mode`, the coordinator, the specialist agents, and `Current gate: G1; status: in progress`. If authorization is missing, the first confirmation request must be permission to use the multi-agent workflow.
 
 ## Workflow
 
@@ -99,25 +102,34 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
    - After delivery, summarize artifacts and call out assumptions or unresolved risks.
    - If the user requests changes, update the brief, regenerate only affected images, revise `uiux-design.md`, and update the preview only when one exists.
 
-7. **Optional Interactive Frontend Preview**
+7. **Frontend Implementation Strategy**
+   - Run this stage after the UI/UX package is approved and before delegating preview code.
+   - The coordinator owns the decision and may ask the Frontend Implementation Agent for a feasibility note, but the coordinator must present the final recommendation to the user.
+   - Inspect the approved images and visual-fidelity contract. Identify every region that needs a specialized implementation method: enterprise UI components, data tables, diagrams, charts, maps, canvas drawings, 3D scenes, blueprint overlays, glass/material effects, image treatment, animation, and generated supporting assets.
+   - Create a reference reconstruction map for each implemented page. The map must list page regions and visible element groups in top-to-bottom reading order, their reference evidence, required implementation method, matching rule, and whether omission is allowed. Default omission is `no`.
+   - Propose one primary stack and any important alternatives. For each major visual region, record the implementation method and required library or custom component in `uiux-design.md`.
+   - Wait for explicit user approval of the stack, visual implementation plan, and reconstruction map. If the user chooses a different stack or accepts a deviation, revise the strategy and any affected preview guidance before implementation.
+
+8. **Optional Interactive Frontend Preview**
    - If the user confirms they want a preview, read `references/frontend-preview.md`.
    - Spawn and delegate implementation to a Frontend Implementation Agent with ownership limited to the preview code and implementation notes.
-   - Give the implementation agent `uiux-design.md`, all approved mockup paths, the design-system image, and the target routes. Require it to inspect the images before editing code.
-   - Build a browser-ready prototype that faithfully follows the approved design document, mockups, and visual-fidelity contract. Do not substitute a familiar generic layout.
+   - Give the implementation agent `uiux-design.md`, the approved frontend implementation strategy, all approved mockup paths, the design-system image, and the target routes. Require it to inspect the images before editing code.
+   - Build a browser-ready prototype that faithfully follows the approved design document, mockups, visual-fidelity contract, implementation strategy, and reconstruction map. Do not substitute a familiar generic layout or downgrade specialized visuals to generic cards.
    - Demonstrate the confirmed routes, navigation, filters, forms, dialogs, and important states with mock data and local interactions.
    - Keep fixtures and mock service adapters outside visual components so future developers can replace them without redesigning the UI.
    - Implement and review the shared shell first, then proceed in small page batches so visual drift is caught early.
    - Stop after the frontend preview. Do not continue into backend or production system development.
 
-8. **Independent Visual Acceptance**
+9. **Independent Visual Acceptance**
    - Read `references/visual-fidelity-review.md`.
    - Spawn a new Visual Acceptance Agent that did not implement the preview. The acceptance agent must not edit implementation files.
-   - Start the preview, capture screenshots at the exact reference viewports, capture full-page screenshots for `page-scroll` routes, and compare each route against its approved design-system image and page mockup. For `page-scroll` routes, the approved vertical long-page mockup is the only page image reference.
+   - Start the preview, capture screenshots at the exact reference viewports, capture full-page screenshots for `page-scroll` routes, and compare each route against its approved design-system image, page mockup, visual-fidelity contract, implementation strategy, and reconstruction map. For `page-scroll` routes, the approved vertical long-page mockup is the only page image reference.
    - Write `gpt-images/uiux/<project-slug>/visual-review.md` with `VIS-###` findings, severity, page and region, expected appearance, actual appearance, evidence paths, and required correction.
-   - Return blocker and major findings to the implementation agent. Repeat implementation and independent review until none remain.
+   - The coordinator reviews findings only for routing and decisions. It must not edit preview code or assets. Return blocker and major findings to the original Frontend Implementation Agent, or spawn a new Frontend Repair Agent when the original agent is unavailable, context-stale, or the fix needs a narrower repair scope.
+   - Repeat repair by implementation/repair agent and independent review until no blocker or major findings remain.
    - Do not report the frontend preview as accepted when review screenshots are missing, reference images were not inspected, or only functional checks were performed.
 
-9. **Final Development Handoff**
+10. **Final Development Handoff**
    - Read `references/development-handoff.md` before final delivery.
    - Finalize the handoff contract inside `uiux-design.md`: source precedence, traceability, route and page map, component inventory, interaction and state matrix, UI data contracts, API capability requirements, acceptance criteria, and preview-to-production guidance.
    - Map every preview route back to a `PAGE-###` entry when a preview exists.
@@ -131,8 +143,9 @@ AI Interface Studio Skill coordinates specialized agents to turn a product idea 
 - Real product surfaces over marketing pages: navigation, content, empty/error/loading states, data tables, forms, filters, details, and role-sensitive actions.
 - Handoff-ready writing: enough detail for a faithful frontend preview without pretending generated bitmap text is exact UI copy.
 - Preview fidelity over backend breadth: build the approved experience convincingly, but keep all data and business operations local or mocked.
-- Role isolation: coordinators coordinate, designers design, implementers implement, and acceptance agents independently accept or reject.
+- Role isolation: coordinators coordinate, designers design, implementers and repair agents implement, and acceptance agents independently accept or reject.
 - Visual fidelity: approved mockups and contracts remain recognizable in the implemented shell, page composition, typography hierarchy, palette, spacing, component shapes, and density.
+- Reconstruction fidelity: the preview should look like Codex rebuilt the website from the approved screenshot. If the implementation reads as a different design inspired by the mockup, it fails even when routes and data are functional.
 - Evidence-based acceptance: every implemented page has matching reference and browser screenshot evidence, and no blocker or major visual findings remain open.
 - Traceable handoff: downstream product, frontend, backend, and QA teams can locate the approved requirement, UI surface, interaction state, data need, and acceptance criterion without guessing.
 - Complete page coverage: long pages include one approved vertical long-page mockup containing every confirmed section, with no missing middle or bottom content.

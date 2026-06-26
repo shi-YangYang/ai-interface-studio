@@ -1,4 +1,4 @@
 interface:
   display_name: "AI Interface Studio Skill"
-  short_description: "Multi-agent UI/UX design and preview fidelity"
-  default_prompt: "Use $ai-interface-studio in coordinated multi-agent mode to turn my product idea into approved UI/UX mockups and a visually verified frontend preview."
+  short_description: "Multi-agent UI/UX design and screenshot-faithful preview"
+  default_prompt: "Use $ai-interface-studio in coordinated multi-agent mode to turn my product idea into approved UI/UX mockups, confirm the frontend implementation and reconstruction strategy, and build a screenshot-faithful frontend preview."
